@@ -5,7 +5,7 @@ import psycopg2
 app = Flask(__name__)
 
 try:
-    conn = psycopg2.connect(database='HotspotDB', host='localhost')
+    conn = psycopg2.connect(database='HotspotDB', host='localhost',user='postgres')
 except:
     print 'cannot connect to database'
     
