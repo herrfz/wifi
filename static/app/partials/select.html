@@ -1,19 +1,18 @@
 <div class="span4">
 
-<h3>Pilih Lokasi</h3>
+<h3>Select location</h3>
 
 <!-- search -->
 <div class="text-right">
     <div class="input-append text-right">
-        <input type="text" ng-model="search"  ng-enter="geoCode()" />
-        <button class="btn" type="button" ng-click="geoCode()" ng-disabled="search.length==0" title="Cari" >
+        <input type="text" ng-model="search" ng-enter="geoCode()"/>
+        <button class="btn" type="button" ng-click="geoCode()" ng-disabled="search.length==0" title="search" >
           &nbsp;<i class="icon-search"></i>
         </button>
     </div>
 </div>
 
-<h4>Apakah Anda berada di:</h4>
-
+<h4>Are you at:</h4>
 <table class="table table-striped table-condensed table-hover">
     <tbody>
         <tr ng-repeat="place in places">
@@ -24,10 +23,10 @@
 </table>
 
 <div class="form-actions">
-    <a href="#/thanks" class="btn btn-primary">IYA</a>
+    <a href="#/thanks" class="btn btn-primary">Yes</a>
     <a href="#/addnew/{{markers[0].latitude}}/{{markers[0].longitude}}" 
        class="btn"
-       ng-disabled="markers.length==0">TIDAK</a>
+       ng-disabled="markers.length==0">No</a>
     <a href="#/home/{{center.latitude}}/{{center.longitude}}" class="btn">Cancel</a>
 </div>
 <p>{{markers[0].latitude}}, {{markers[0].longitude}}</p>
@@ -45,8 +44,7 @@
      fit="false"
      style="height:400px;margin:12px;box-shadow:0 3px 25px black">
 </div>
-<a href="#/home/{{markers[0].latitude}}, {{markers[0].longitude}}"
     
-<p>Cari Lokasi yang ada inginkan di Sebelah kiri kemudian klik posisi WiFi Gratis pada peta.</p>
+<p>Search for rough location on the left. Drag and zoom the map, click to add a marker of the exact location. Then select the venue on the left.</p>
     
 </div> <!-- span -->

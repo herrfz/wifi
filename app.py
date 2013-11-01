@@ -5,12 +5,11 @@ import psycopg2
 app = Flask(__name__)
 
 try:
-    conn = psycopg2.connect(database='HotspotDB', host='localhost',user='postgres')
+    conn = psycopg2.connect(database='HotspotDB', host='localhost') #, user='postgres')
+    conn.autocommit = True
+    cursor = conn.cursor()
 except:
     print 'cannot connect to database'
-    
-conn.autocommit = True
-cursor = conn.cursor()
 
 
 
