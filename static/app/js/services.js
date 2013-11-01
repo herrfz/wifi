@@ -16,7 +16,7 @@ angular.module('freeWiFiServices', ['ngResource']).
         return $resource(url, {}, actions);
     
 }).factory('HotspotDetail', function($resource){
-        var url = '/freewifi/api/v1.0/hotspots/:id';
+        var url = '/freewifi/api/v1.0/hotspots/:id/:lat/:lon';
         var actions = {
             query: {method: 'GET'},
             create: {method: 'POST'},

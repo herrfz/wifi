@@ -1,16 +1,65 @@
-<h3>Add new venue</h3>
+
+<head>
+<div class="span12">
+<img  src="static/app/img/wifinder2.png">
+</div> 
+<div class = "row-fluid">
+    <div class="span8">
+    </div>
+    
+	<div class ="span4">
+      <span align="right"><h5>
+      <a href="#/home/{{center.latitude}}/{{center.longitude}}">Home  </a>  || 
+      <a href="#/select/{{center.latitude}}/{{center.longitude}}/{{zoom}}">Add New Hospot</a>  ||
+      <a href="--to be added --">Contact Us</a></h5>
+      </span>  
+   
+    </div>
+ </div>
+ 
+ 
+ 
+ </head>
+ <body>
 
 <form name="form" class="form-horizontal">
 <div class="control-group">
-    <label class="control-label">You're at</label>
+ <h3>Add New Location</h3>
+    <label class="control-label">You're At : </label>
     <div class="controls">
         <input type="text" ng-model="name">
     </div>
 </div>
 <div class="form-actions">
-    <a href="#/thanks" class="btn btn-primary" 
+    <a href="#/thanks/" class="btn btn-primary" 
        ng-click="addNew()"
        ng-disabled="name.length==0">Submit</a>
     <a href="#/home/{{lat}}/{{lon}}" class="btn">Cancel</a>
 </div>
+</div>
 </form>
+
+<footer>
+
+<div class="row-fluid">
+	
+		
+		<div class ="span8">
+	   
+		</div>
+		
+		<div class = "span4" style="text-align: right ; margin:10px " >
+		
+	      <h1><a href="--to be added--"><text align = "right"> WiFinder.</a></h1>
+	        <p>
+                Copyright &copy; WiFinder. All Rights Reserved. <a href="/company/disclaimer.asp">Disclaimer and Terms of Use</a>.
+            </p>
+	              <a href="http://twitter.com/wifinderinc" target="_blank"><img align ="right" src="static/app/img/icon_twitter.png" /></a>
+                  <a href="http://www.youtube.com/user/Wifinderinc" target="_blank"><img align="right" src="static/app/img/icon_youtube.png" /></a>
+		
+	    
+        </div>
+</div>
+</body>
+
+</footer>

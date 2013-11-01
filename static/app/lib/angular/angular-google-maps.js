@@ -63,12 +63,15 @@
     function PrivateMapModel(opts) {
       
       var _instance = null,
-        _markers = [],  // caches the instances of google.maps.Marker
+       _markers = [],  // caches the instances of google.maps.Marker
         _handlers = [], // event handlers
         _windows = [],  // InfoWindow objects
         o = angular.extend({}, _defaults, opts),
         that = this,
         currentInfoWindow = null;
+
+
+
       
       this.center = opts.center;
       this.zoom = o.zoom;
