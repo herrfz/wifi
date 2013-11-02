@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 try:
     conn = psycopg2.connect(database='HotspotDB', host='localhost') #, user='postgres')
+    # conn.set_isolation_level(0) # for older version of psycopg2
     conn.autocommit = True
     cursor = conn.cursor()
 except:
@@ -151,4 +152,4 @@ def delete_hotspot(hotspot_id):
 
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True, host='0.0.0.0')
