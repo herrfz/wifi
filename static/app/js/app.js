@@ -4,12 +4,12 @@
 var myApp = angular.module('freeWifiFinderApp', ['google-maps', 'freeWiFiServices']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
-    when('/home/:lat/:lon', {templateUrl: 'static/app/partials/home.html',   controller: 'HomeCtrl'}).
-    when('/select/:lat/:lon/:zoom', {templateUrl: 'static/app/partials/select.html',   controller: 'SelectCtrl'}).
-    when('/addnew/:lat/:lon', {templateUrl: 'static/app/partials/addnew.html',   controller: 'AddNewCtrl'}).
+    when('/home', {templateUrl: 'static/app/partials/home.html',   controller: 'HomeCtrl'}).
+    when('/select', {templateUrl: 'static/app/partials/select.html',   controller: 'SelectCtrl'}).
+    when('/addnew', {templateUrl: 'static/app/partials/addnew.html',   controller: 'AddNewCtrl'}).
     when('/thanks', {templateUrl: 'static/app/partials/thanks.html',   controller: 'ThanksCtrl'}).
-    when('/details/:id/:lat/:lon', {templateUrl: 'static/app/partials/details.html',   controller: 'DetailsCtrl'}).
-    otherwise({redirectTo: '/home/-6.908361/107.610698'});
+    when('/:id/details', {templateUrl: 'static/app/partials/details.html',   controller: 'DetailsCtrl'}).
+    otherwise({redirectTo: '/home'});
 }]);
 
 myApp.config(function($httpProvider){

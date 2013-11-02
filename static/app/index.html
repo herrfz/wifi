@@ -5,18 +5,40 @@
     <meta charset="utf-8">
     <title>Free-WiFi Locator</title>
     <link rel="stylesheet" href="static/app/css/bootstrap.min.css">
-    <script src="static/app/lib/angular/angular.js"></script>
-    <script src="static/app/lib/angular/angular-resource.js"></script>
-    <script src="static/app/lib/angular/angular-google-maps.js"></script>
-    <script src="static/app/js/app.js"></script>
-    <script src="static/app/js/controllers.js"></script>
-    <script src="static/app/js/services.js"></script>
- <script src="static/app/js/directives.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALeJpRiaFqivg8YkR5m8hLXLwyCn3NBr8&sensor=true"></script>
+    <link rel="stylesheet" href="static/app/css/app.css">
 </head>
+    
 <body>
 
-<div class="container" ng-view></div>
+<div class="container">
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- Header -->
+            <div class="page-header" ng-include="'static/app/partials/header.html'">
+            </div>
+            
+            <!-- Main app -->
+            <div class="row-fluid" ng-view>
+            </div>
+            
+            <!-- Footer -->
+            <div class="row-fluid">
+                <div class="text-right" ng-include="'static/app/partials/footer.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>   
+
+    
+<script src="static/app/lib/angular/angular.min.js"></script>
+<script src="static/app/lib/angular/angular-resource.min.js"></script>
+<script src="static/app/lib/angular/angular-google-maps.js"></script>
+<script src="static/app/js/app.js"></script>
+<script src="static/app/js/controllers.js"></script>
+<script src="static/app/js/services.js"></script>
+<script src="static/app/js/directives.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALeJpRiaFqivg8YkR5m8hLXLwyCn3NBr8&sensor=true"></script>
 
 </body>
+    
 </html>

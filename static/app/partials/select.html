@@ -10,24 +10,24 @@
         <button class="btn" type="button" ng-click="geoCode()" ng-disabled="search.length==0" title="search" >
           &nbsp;<i class="icon-search"></i>
         </button>
-<p style = "color :blue ; text-align : left; font-size:75%; font-style:italic;" >*use detail for better result eg:(Road xxx,city,country) </p>
     </div>
-</div>
+</div>   
+<p class="small-note-italic">*tambahkan detail untuk hasil yang akurat, contoh: jalan xxx, kota, negara</p>
 
-<h4>Are You At:</h4>
+<h4>Apakah anda berada di: </h4>
 
 <table class="table table-striped table-condensed table-hover">
     <tbody>
         <tr ng-repeat="place in places">
-            <td><input type="radio" name="place"></td>
+            <td><input type="radio" ng-model="selected.place" ng-value="place"></td>
             <td>{{place.name}}</td>
         </tr>
     </tbody>
 </table>
 
 <div class="form-actions">
-    <button class ="btn btn-primary" ng-click="letsGo('/thanks')">Add</button>
-    <a href="#/home/{{center.latitude}}/{{center.longitude}}" class="btn">Cancel</a>
+    <a href="#/thanks" class="btn btn-primary" ng-click="submit('radio')">Tambah hotspot</a>
+    <a href="#/home" class="btn">Cancel</a>
 </div>
 
     
@@ -54,19 +54,15 @@ OR
 
 </div>
 
-<p style = "color :blue ; text-align : left; font-size:75%;" >*Search for rough location on the left. Drag and zoom the map, click to add a marker of the exact location. </p>
+<p class="small-note">*Cari lokasi di form di bagian kiri. Geser dan zoom pada peta, klik untuk menambahkan marker pada posisi yang diinginkan.</p>
 <!--<p>{{markers[0].latitude}}, {{markers[0].longitude}}</p>-->
 
-<a href="#/addnew/{{markers[0].latitude}}/{{markers[0].longitude}}" 
+<a href="#/addnew" 
    class="btn btn-primary"
-   ng-disabled="markers.length==0">Add</a>
-
-<a href="#/home/{{center.latitude}}/{{center.longitude}}" class="btn">Cancel</a>
+   ng-disabled="markers.length==0"
+   ng-click="submit('marker')">Tambah hotspot</a>
+<a href="#/home" class="btn">Cancel</a>
 	   
 
 </div>
-</div>
-
-
-<div class ="span12">
 </div>

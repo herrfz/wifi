@@ -1,15 +1,14 @@
 'use strict';
 
 /* Controllers */
-function HomeCtrl($scope, $routeParams, FreeWiFi) {
-    $scope.test = "home";
+function HomeCtrl($scope, FreeWiFi, Global) {
     
-    $scope.zoom = 12;
+    $scope.zoom = Global.zoom;
     var radius = 5000; // metres
     
     // hard-coded default map centre coordinate and initial hotspots in the surrounding
-    $scope.center = { latitude: $routeParams.lat, 
-                      longitude: $routeParams.lon };
+    $scope.center = { latitude: Global.lat, 
+                      longitude: Global.lon };
     $scope.hotspots = FreeWiFi.query({lat: $scope.center.latitude,
                                       lon: $scope.center.longitude,
                                       radius: radius},
@@ -21,7 +20,11 @@ function HomeCtrl($scope, $routeParams, FreeWiFi) {
     $scope.gotoLocation = function (lat, lon) {
         if ($scope.latitude != lat || $scope.longitude != lon) {
             $scope.zoom = 16;
-            $scope.center = { latitude: lat, longitude: lon };
+            $scope.center = { latitude: lat, 
+                             longitude: lon };
+            Global.lat = lat;
+            Global.lon = lon;
+            
             if (!$scope.$$phase) $scope.$apply("center");
             $scope.hotspots = FreeWiFi.query({lat: $scope.center.latitude, 
                                               lon: $scope.center.longitude, 
@@ -49,25 +52,26 @@ function HomeCtrl($scope, $routeParams, FreeWiFi) {
             });
         }
     };
+    
+    
+    $scope.submit = function() {
+        Global.lat = $scope.center.latitude;
+        Global.lon = $scope.center.longitude;
+        Global.zoom = $scope.zoom;
+    };
 
 };
 
-function SelectCtrl($scope, $http, $routeParams,$location,HotspotDetail) {
-    $scope.test = "confirm";
+
+function SelectCtrl($scope, $http, HotspotDetail, Global) {
     
     $scope.markers = [];
-    $scope.zoom = parseInt($routeParams.zoom);
-
-	//test buat jump page   belum selesai 
-
-$scope.letsGo = function ( hash ) {
-  $location.path( hash);
-};
+    $scope.zoom = Global.zoom;
 	
 	
     // map centre coordinates from home page
-    $scope.center = { latitude: $routeParams.lat, 
-                      longitude: $routeParams.lon };
+    $scope.center = { latitude: Global.lat, 
+                      longitude: Global.lon };
     
     // this is a hack
     if ($scope.markers.length==0) {
@@ -77,10 +81,6 @@ $scope.letsGo = function ( hash ) {
         $scope.cur_lat = $scope.markers[0].latitude; 
         $scope.cur_lon = $scope.markers[0].longitude;
     }
-	
-
-  
-
     
     
     $scope.gotoLocation = function (lat, lon) {
@@ -89,6 +89,8 @@ $scope.letsGo = function ( hash ) {
             if (!$scope.$$phase) $scope.$apply(function() {
                 $scope.center = { latitude: lat, 
                                   longitude: lon };
+                Global.lat = lat;
+                Global.lon = lon;
 								  
                 $scope.cur_lat = lat;  //change parameter lat lon after search
                 $scope.cur_lon = lon;
@@ -140,6 +142,9 @@ $scope.letsGo = function ( hash ) {
             }
  
         }
+        
+        // initiate the new_hotspot, actual value to be set in submit() via radio button
+        $scope.selected = {place: $scope.places[0]};
 
     });
    
@@ -147,27 +152,44 @@ $scope.letsGo = function ( hash ) {
 	//init 4square API
 	 $scope.lokasi();
 	 
+    
+    $scope.submit = function(venue_source) {
+        if (venue_source=='radio') {
+            var name = $scope.selected.place.name;
+            Global.lat = $scope.selected.place.lat;
+            Global.lon = $scope.selected.place.lon;
+            
+            // add hotspot using HotspotDetail service query
+            var new_hotspot = {name: name,
+                               latitude: $scope.selected.place.lat,
+                               longitude: $scope.selected.place.lon};
+            HotspotDetail.create(new_hotspot, function(resp){
+                $scope.response = resp.hotspot.uri;
+            });
+            
+        } else if (venue_source=='marker') {
+            Global.lat = $scope.markers[0].latitude;
+            Global.lon = $scope.markers[0].longitude;
+        }
+    };
 
 
 };
 
 
-function AddNewCtrl($scope, $routeParams, HotspotDetail) {
-
-    $scope.test = "addnew";
+function AddNewCtrl($scope, HotspotDetail, Global) {
     
     $scope.name = "";
-    $scope.lat = $routeParams.lat;
-    $scope.lon = $routeParams.lon;
+    $scope.lat = Global.lat;
+    $scope.lon = Global.lon;
     
     $scope.addNew =  function(name) {
-        var new_venue = {name: $scope.name,
+        var new_hotspot = {name: $scope.name,
                          latitude: $scope.lat,
                          longitude: $scope.lon};
-        HotspotDetail.create(new_venue,
-                             function(resp){
-                                 $scope.response = resp.hotspot.uri;
-                             });
+        HotspotDetail.create(new_hotspot, function(resp){
+            $scope.response = resp.hotspot.uri;
+        });
     } 
     
     //console.log($scope.name);
@@ -181,32 +203,36 @@ function ThanksCtrl($scope) {
 };
 
 
-function DetailsCtrl($scope, $routeParams, HotspotDetail) {
-    $scope.test = "details";
-	$scope.zoom = 16;
-		// map centre coordinates from
-       $scope.center = { latitude: $routeParams.lat, 
-                      longitude: $routeParams.lon };
-// 
+function DetailsCtrl($scope, $routeParams, HotspotDetail, Global) {
+    
     $scope.id = $routeParams.id;
-	$scope.lat = $routeParams.lat;
-	$scope.lon = $routeParams.lon;
+    // center and zoom just need to be initialized
+    // the actual value will be updated after the query
+    $scope.center = { latitude: 0, 
+                      longitude: 0 };
+    $scope.zoom = 16;
+    
     $scope.hotspot = HotspotDetail.query({id: $scope.id}, 
                                          function(hotspot){
+                                             $scope.test = hotspot;
                                              $scope.name = hotspot.hotspot.name;
-											$scope.markers = [$scope.center]
-											 $scope.zoom = 16;
+                                             $scope.lat = hotspot.hotspot.latitude;
+                                             $scope.lon = hotspot.hotspot.longitude;
+                                             $scope.center = { latitude: $scope.lat, 
+                                                               longitude: $scope.lon };
+											 $scope.markers = [$scope.center]
+                                             Global.lat = $scope.lat;
+                                             Global.lon = $scope.lon;
+                                             Global.zoom = $scope.zoom;
                                          });
-    
-
 };
 
 
 
 
 
-myApp.controller('HomeCtrl', ['$scope', '$routeParams', 'FreeWiFi', HomeCtrl]);
-myApp.controller('SelectCtrl', ['$scope', '$http', '$routeParams','$location','HotspotDetail', SelectCtrl]);
-myApp.controller('AddNewCtrl', ['$scope', '$routeParams', 'HotspotDetail', AddNewCtrl]);
+myApp.controller('HomeCtrl', ['$scope', 'FreeWiFi', 'Global', HomeCtrl]);
+myApp.controller('SelectCtrl', ['$scope', '$http', 'HotspotDetail', 'Global', SelectCtrl]);
+myApp.controller('AddNewCtrl', ['$scope', 'HotspotDetail', 'Global', AddNewCtrl]);
 myApp.controller('ThanksCtrl', ['$scope', ThanksCtrl]);
-myApp.controller('DetailsCtrl', ['$scope', '$routeParams', 'HotspotDetail', DetailsCtrl]);
+myApp.controller('DetailsCtrl', ['$scope', '$routeParams', 'HotspotDetail', 'Global', DetailsCtrl]);

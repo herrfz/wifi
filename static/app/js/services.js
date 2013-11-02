@@ -27,3 +27,11 @@ angular.module('freeWiFiServices', ['ngResource']).
         return $resource(url, {}, actions);
     
 });
+
+myApp.factory('Global', function() {
+    return {
+        lat: -6.908361,
+        lon: 107.610698,
+        zoom: 12
+    };
+});

@@ -1,86 +1,30 @@
+<div class ="span7" style ="width:500px;">
 
-<head>
+<h3>{{name}}</h3>
+<p style="color:blue;font-style:italic;"> ({{lat}} , {{lon}} )</p>
 
-<img  src="static/app/img/wifinder2.png">
-
-<div class = "row-fluid">
-    <div class="span8">
-    </div>
-    
-	<div class ="span4">
-      <span align="right"><h5>
-      <a href="#/home/{{center.latitude}}/{{center.longitude}}">Home  </a>  || 
-      <a href="#/select/{{center.latitude}}/{{center.longitude}}/{{zoom}}">Add New Hospot</a>  ||
-      <a href="--to be added --">Contact Us</a></h5>
-      </span>  
-   
-    </div>
- </div>
- 
- 
- 
- </head>
- <body>
- 
-
-
-
- <div class ="span7" style ="width:500px;">
-
-<h3>{{name}} </h3> <p style="color:blue;font-style:italic;"> ({{lat}} , {{lon}} )</p>
-
-<p>Rating : </p>
+<p>Rating: </p>
 <p>Upvotes | Downvotes</p>
 </div>
 
 
-
 <div class ="span4">
-<div class="google-map" 
-     center="center"
-     zoom="zoom"
-     markers="markers"
-     mark-click="false"
-     draggable="false"
-     fit="false"
-     style="height:300px;width:400px;margin:5px;box-shadow:0 3px 25px black">
-
-
-</div>
+    <div class="google-map" 
+         center="center"
+         zoom="zoom"
+         markers="markers"
+         mark-click="false"
+         draggable="false"
+         fit="false"
+         style="height:300px;width:400px;margin:5px;box-shadow:0 3px 25px black">
+    </div>
 </div>
 
 
 <div class="span12">
-<h5>Comments</h5>
+    <h5>Komentar</h5>
 </div>
 
 <div class="span12">
-
-    <a href="#/home/{{lat}}/{{lon}}" class="btn btn-primary" >Home</a>
-
+    <a href="#/home" class="btn btn-primary">Home</a>
 </div>
-</body>
-
-<footer>
-
-<div class="row-fluid">
-	
-		
-		<div class ="span8">
-	   
-		</div>
-		
-		<div class = "span4" style ="text-align:right; margin:20ptx">
-		
-	      <h1><a href="--to be added--">WiFinder.</a></h1>
-	        <p>
-                Copyright &copy; WiFinder. All Rights Reserved. <a href="/company/disclaimer.asp">Disclaimer and Terms of Use</a>.
-            </p>
-	              <a href="http://twitter.com/wifinderinc" target="_blank"><img align ="right" src="static/app/img/icon_twitter.png" /></a>
-                  <a href="http://www.youtube.com/user/Wifinderinc" target="_blank"><img align="right" src="static/app/img/icon_youtube.png" /></a>
-		
-	    
-        </div>
-</div>
-
-</footer>

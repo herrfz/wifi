@@ -1,6 +1,14 @@
 /* app css stylesheet */
 
-body {
-  padding-top: 20px;
+.small-note {
+    color: blue;
+    text-align: left;
+    font-size: 75%;
 }
 
+.small-note-italic {
+    color: blue;
+    text-align: left;
+    font-size: 75%;
+    font-style: italic;
+}
