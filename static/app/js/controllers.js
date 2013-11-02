@@ -42,6 +42,7 @@ function HomeCtrl($scope, $routeParams, FreeWiFi) {
                     var loc = results[0].geometry.location;
                     $scope.search = results[0].formatted_address;
                     $scope.gotoLocation(loc.lat(), loc.lng());
+
                 } else {
                     alert("Sorry, this search produced no results.");
                 }
@@ -51,13 +52,19 @@ function HomeCtrl($scope, $routeParams, FreeWiFi) {
 
 };
 
-
-function SelectCtrl($scope, $http, $routeParams) {
+function SelectCtrl($scope, $http, $routeParams,$location,HotspotDetail) {
     $scope.test = "confirm";
     
     $scope.markers = [];
     $scope.zoom = parseInt($routeParams.zoom);
-    
+
+	//test buat jump page   belum selesai 
+
+$scope.letsGo = function ( hash ) {
+  $location.path( hash);
+};
+	
+	
     // map centre coordinates from home page
     $scope.center = { latitude: $routeParams.lat, 
                       longitude: $routeParams.lon };
@@ -70,6 +77,10 @@ function SelectCtrl($scope, $http, $routeParams) {
         $scope.cur_lat = $scope.markers[0].latitude; 
         $scope.cur_lon = $scope.markers[0].longitude;
     }
+	
+
+  
+
     
     
     $scope.gotoLocation = function (lat, lon) {
@@ -78,8 +89,9 @@ function SelectCtrl($scope, $http, $routeParams) {
             if (!$scope.$$phase) $scope.$apply(function() {
                 $scope.center = { latitude: lat, 
                                   longitude: lon };
-                $scope.cur_lat = $scope.markers[0].latitude;
-                $scope.cur_lon = $scope.markers[0].longitude;
+								  
+                $scope.cur_lat = lat;  //change parameter lat lon after search
+                $scope.cur_lon = lon;
             });
         }
     };
@@ -94,6 +106,8 @@ function SelectCtrl($scope, $http, $routeParams) {
                     var loc = results[0].geometry.location;
                     $scope.search = results[0].formatted_address;
                     $scope.gotoLocation(loc.lat(), loc.lng());
+					$scope.lokasi();
+					
                 } else {
                     alert("Sorry, this search produced no results.");
                 }
@@ -101,8 +115,9 @@ function SelectCtrl($scope, $http, $routeParams) {
         }
     };
     
-    
-    var locurl = "https://api.foursquare.com/v2/venues/search?" +
+	// foursquare API
+	$scope.lokasi = function(){
+ 	var locurl = "https://api.foursquare.com/v2/venues/search?" +
         "ll=" + $scope.cur_lat + "," + $scope.cur_lon + 
         "&v=20131010" +
         "&client_id=FKVZUNMDCVVUHV32XUJ1AII35CWBPZKQTG1V0UBXSMLXOLUJ" + 
@@ -125,12 +140,20 @@ function SelectCtrl($scope, $http, $routeParams) {
             }
  
         }
+
     });
+   
+	};
+	//init 4square API
+	 $scope.lokasi();
+	 
+
 
 };
 
 
 function AddNewCtrl($scope, $routeParams, HotspotDetail) {
+
     $scope.test = "addnew";
     
     $scope.name = "";
@@ -154,27 +177,37 @@ function AddNewCtrl($scope, $routeParams, HotspotDetail) {
 
 function ThanksCtrl($scope) {
   $scope.test = "thanks";
-
+    
 };
 
 
 function DetailsCtrl($scope, $routeParams, HotspotDetail) {
     $scope.test = "details";
-    
+	$scope.zoom = 16;
+		// map centre coordinates from
+       $scope.center = { latitude: $routeParams.lat, 
+                      longitude: $routeParams.lon };
+// 
     $scope.id = $routeParams.id;
+	$scope.lat = $routeParams.lat;
+	$scope.lon = $routeParams.lon;
     $scope.hotspot = HotspotDetail.query({id: $scope.id}, 
                                          function(hotspot){
                                              $scope.name = hotspot.hotspot.name;
-                                             $scope.lat = hotspot.hotspot.latitude;
-                                             $scope.lon = hotspot.hotspot.longitude;
+											$scope.markers = [$scope.center]
+											 $scope.zoom = 16;
                                          });
+    
 
 };
 
 
 
+
+
+
 myApp.controller('HomeCtrl', ['$scope', '$routeParams', 'FreeWiFi', HomeCtrl]);
-myApp.controller('SelectCtrl', ['$scope', '$http', '$routeParams', SelectCtrl]);
+myApp.controller('SelectCtrl', ['$scope', '$http', '$routeParams','$location','HotspotDetail', SelectCtrl]);
 myApp.controller('AddNewCtrl', ['$scope', '$routeParams', 'HotspotDetail', AddNewCtrl]);
 myApp.controller('ThanksCtrl', ['$scope', ThanksCtrl]);
 myApp.controller('DetailsCtrl', ['$scope', '$routeParams', 'HotspotDetail', DetailsCtrl]);
