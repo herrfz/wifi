@@ -205,7 +205,6 @@ function DetailsCtrl($scope, $routeParams, HotspotDetail) {
 
 
 
-
 myApp.controller('HomeCtrl', ['$scope', '$routeParams', 'FreeWiFi', HomeCtrl]);
 myApp.controller('SelectCtrl', ['$scope', '$http', '$routeParams','$location','HotspotDetail', SelectCtrl]);
 myApp.controller('AddNewCtrl', ['$scope', '$routeParams', 'HotspotDetail', AddNewCtrl]);
