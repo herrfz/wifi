@@ -1,0 +1,16 @@
+<h3>Add new venue</h3>
+
+<form name="form" class="form-horizontal">
+<div class="control-group">
+    <label class="control-label">You're at</label>
+    <div class="controls">
+        <input type="text" ng-model="name">
+    </div>
+</div>
+<div class="form-actions">
+    <a href="#/thanks" class="btn btn-primary" 
+       ng-click="addNew()"
+       ng-disabled="name.length==0">Submit</a>
+    <a href="#/home/{{lat}}/{{lon}}" class="btn">Cancel</a>
+</div>
+</form>
