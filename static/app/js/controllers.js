@@ -144,7 +144,9 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
         }
         
         // initiate the new_hotspot, actual value to be set in submit() via radio button
-        $scope.selected = {place: $scope.places[0]};
+        $scope.selected = {place: {name: "None",
+                                   lat: 0,
+                                   lon: 0}};
 
     });
    
@@ -166,6 +168,7 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
             HotspotDetail.create(new_hotspot, function(resp){
                 $scope.response = resp.hotspot.uri;
             });
+            $location.path('/thanks');
             
         } else if (venue_source=='marker') {
             Global.lat = $scope.markers[0].latitude;

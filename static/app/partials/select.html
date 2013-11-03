@@ -26,7 +26,11 @@
 </table>
 
 <div class="form-actions">
-    <a href="#/thanks" class="btn btn-primary" ng-click="submit('radio')">Tambah hotspot</a>
+    <button 
+        class="btn btn-primary"
+        ng-disabled="selected.place.name=='None'"
+        ng-click="submit('radio')">Tambah hotspot</button>
+<!--    <a href="#/thanks" class="btn btn-primary" ng-click="submit('radio')">Tambah hotspot</a>-->
     <a href="#/home" class="btn">Cancel</a>
 </div>
 
