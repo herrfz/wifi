@@ -31,5 +31,5 @@ WiFinder webapp
 	- how to manage the session? e.g. a user is allowed to vote only once
 	- Comment via Disqus	
 	- Dynamic venue recommendations based on map centre
-- Sanitize input form (character "'" is currently not accepted)
+- ~~Sanitize input form (character "'" is currently not accepted)~~
 
