@@ -190,8 +190,8 @@ function AddNewCtrl($scope, $location, HotspotDetail, Global) {
                          longitude: $scope.lon};
         HotspotDetail.create(new_hotspot, function(resp){
             $scope.response = resp.hotspot.uri;
-            $location.path('/thanks');
         });
+        $location.path('/thanks');
     } 
     
     //console.log($scope.name);
