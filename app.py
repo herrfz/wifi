@@ -105,6 +105,12 @@ def create_hotspot():
     name = request.json['name']
     lat = request.json.get('latitude', "")
     lon = request.json.get('longitude', "")
+    
+    # escape single quote for postgres
+    name = name.replace("'", "''")
+    
+    # SQL input sanitization TBD
+    
     query = '''INSERT INTO Hotspots(name, latitude, longitude)
                VALUES('%s', %s, %s)
             ''' % (name, lat, lon)
