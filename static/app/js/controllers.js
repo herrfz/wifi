@@ -63,7 +63,7 @@ function HomeCtrl($scope, FreeWiFi, Global) {
 };
 
 
-function SelectCtrl($scope, $http, HotspotDetail, Global) {
+function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
     
     $scope.markers = [];
     $scope.zoom = Global.zoom;
@@ -170,6 +170,7 @@ function SelectCtrl($scope, $http, HotspotDetail, Global) {
         } else if (venue_source=='marker') {
             Global.lat = $scope.markers[0].latitude;
             Global.lon = $scope.markers[0].longitude;
+            $location.path('/addnew');
         }
     };
 
@@ -177,7 +178,7 @@ function SelectCtrl($scope, $http, HotspotDetail, Global) {
 };
 
 
-function AddNewCtrl($scope, HotspotDetail, Global) {
+function AddNewCtrl($scope, $location, HotspotDetail, Global) {
     
     $scope.name = "";
     $scope.lat = Global.lat;
@@ -189,6 +190,7 @@ function AddNewCtrl($scope, HotspotDetail, Global) {
                          longitude: $scope.lon};
         HotspotDetail.create(new_hotspot, function(resp){
             $scope.response = resp.hotspot.uri;
+            $location.path('/thanks');
         });
     } 
     
@@ -232,7 +234,7 @@ function DetailsCtrl($scope, $routeParams, HotspotDetail, Global) {
 
 
 myApp.controller('HomeCtrl', ['$scope', 'FreeWiFi', 'Global', HomeCtrl]);
-myApp.controller('SelectCtrl', ['$scope', '$http', 'HotspotDetail', 'Global', SelectCtrl]);
-myApp.controller('AddNewCtrl', ['$scope', 'HotspotDetail', 'Global', AddNewCtrl]);
+myApp.controller('SelectCtrl', ['$scope', '$http', '$location', 'HotspotDetail', 'Global', SelectCtrl]);
+myApp.controller('AddNewCtrl', ['$scope', '$location', 'HotspotDetail', 'Global', AddNewCtrl]);
 myApp.controller('ThanksCtrl', ['$scope', ThanksCtrl]);
 myApp.controller('DetailsCtrl', ['$scope', '$routeParams', 'HotspotDetail', 'Global', DetailsCtrl]);
