@@ -1,7 +1,7 @@
 'use strict';
 
 /* App Module */
-var myApp = angular.module('freeWifiFinderApp', ['google-maps', 'freeWiFiServices']).
+var myApp = angular.module('freeWifiFinderApp', ['google-maps', 'freeWiFiServices', 'ui.bootstrap', 'ngDisqus']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
     when('/home', {templateUrl: 'static/app/partials/home.html',   controller: 'HomeCtrl'}).

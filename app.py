@@ -49,10 +49,10 @@ def index():
 
 
 # just for testing
-@app.route("/test_map")
+@app.route("/test")
 def test_map():
     # return send_file('static/app/index.html') # cached
-    return make_response(open('map.html').read())
+    return make_response(open('disqus.html').read())
 
 
 

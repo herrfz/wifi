@@ -16,9 +16,7 @@
     <tbody>
         <tr ng-repeat="hotspot in hotspots.nearby_hotspots">
             <td>{{hotspot.name}} (*)</td>
-            <td><a href="#"><i class="icon-bookmark"></i></a></td>
-            <td><a href="#"><i class="icon-arrow-up"></i></a></td>
-            <td><a href="#"><i class="icon-arrow-down"></i></a></td>
+            <td><rating value="rate" max="max"></td>
             <td><a href="#/{{hotspot.id}}/details">Detail</a></td>
         </tr>
     </tbody>

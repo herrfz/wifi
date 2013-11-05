@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>rating test</title>
+    <link rel="stylesheet" href="static/app/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/app/css/app.css">
+</head>
+    
+<body>
+    
+    
+<div class="rw-ui-container"></div>
+
+<script type="text/javascript">(function(d, t, e, m){
+    window._rws = window._rws || [{
+        huid: "137868",
+        uid: "2deb8a0add8db4589f4124d7991598d4",
+        options: {
+            "style": "oxygen"
+        },
+        source: "website"
+    }];
+
+    // Append Rating-Widget JavaScript library.
+    var rw, s = d.getElementsByTagName(e)[0], id = "rw-website-js",
+        p = d.location.protocol, a = ("https:" == p ? "secure." + 
+        m + "js/platform" : "js." + m + "platform/"), 
+        ck = "Y" + t.getFullYear() + "M" + t.getMonth() + "D" + t.getDate();
+    if (d.getElementById(id)) return;              
+    rw = d.createElement(e);
+    rw.id = id; rw.async = true; rw.type = "text/javascript";
+    rw.src = p + "//" + a + "website.js?ck=" + ck;
+    s.parentNode.insertBefore(rw, s);
+}(document, new Date(), "script", "rating-widget.com/"));</script>
+
+
+</body>
+</html>

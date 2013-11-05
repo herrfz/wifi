@@ -6,6 +6,10 @@ function HomeCtrl($scope, FreeWiFi, Global) {
     $scope.zoom = Global.zoom;
     var radius = 5000; // metres
     
+    $scope.rate = 0;
+    $scope.max = 4;
+    
+    
     // hard-coded default map centre coordinate and initial hotspots in the surrounding
     $scope.center = { latitude: Global.lat, 
                       longitude: Global.lon };
@@ -208,9 +212,10 @@ function ThanksCtrl($scope) {
 };
 
 
-function DetailsCtrl($scope, $routeParams, HotspotDetail, Global) {
+function DetailsCtrl($scope, $routeParams, $window, HotspotDetail, Global) {
     
     $scope.id = $routeParams.id;
+    $window.disqus_shortname = "wifinder";
     // center and zoom just need to be initialized
     // the actual value will be updated after the query
     $scope.center = { latitude: 0, 
@@ -240,4 +245,4 @@ myApp.controller('HomeCtrl', ['$scope', 'FreeWiFi', 'Global', HomeCtrl]);
 myApp.controller('SelectCtrl', ['$scope', '$http', '$location', 'HotspotDetail', 'Global', SelectCtrl]);
 myApp.controller('AddNewCtrl', ['$scope', '$location', 'HotspotDetail', 'Global', AddNewCtrl]);
 myApp.controller('ThanksCtrl', ['$scope', ThanksCtrl]);
-myApp.controller('DetailsCtrl', ['$scope', '$routeParams', 'HotspotDetail', 'Global', DetailsCtrl]);
+myApp.controller('DetailsCtrl', ['$scope', '$routeParams', '$window', 'HotspotDetail', 'Global', DetailsCtrl]);
