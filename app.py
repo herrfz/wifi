@@ -48,13 +48,6 @@ def index():
     return make_response(open('static/app/index.html').read())
 
 
-# just for testing
-@app.route("/test")
-def test_map():
-    # return send_file('static/app/index.html') # cached
-    return make_response(open('disqus.html').read())
-
-
 
 ######################
 #

@@ -17,16 +17,16 @@
         <tr ng-repeat="hotspot in hotspots.nearby_hotspots">
             <td>{{hotspot.name}} (*)</td>
             <td><rating value="rate" max="max"></td>
-            <td><a href="#/{{hotspot.id}}/details">Detail</a></td>
+            <td><a href="#!/{{hotspot.id}}/details">Detail</a></td>
         </tr>
     </tbody>
 </table>
 
 
 <div class="form-actions">
-    <a href="#/select" 
+    <a href="#!/select" 
        class="btn btn-primary"
-       ng-click="submit()">Tambahkan hotspot baru</a>
+       ng-click="submit()">Tambah hotspot baru</a>
 </div>
 </div> <!-- span -->
 

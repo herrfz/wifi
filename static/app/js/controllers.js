@@ -71,6 +71,8 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
     
     $scope.markers = [];
     $scope.zoom = Global.zoom;
+    
+    $scope.name = "";
 	
 	
     // map centre coordinates from home page
@@ -172,12 +174,21 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
             HotspotDetail.create(new_hotspot, function(resp){
                 $scope.response = resp.hotspot.uri;
             });
-            $location.path('/thanks');
+            alert("Hotspot telah ditambahkan, terima kasih!");
+            $location.path('/home');
             
         } else if (venue_source=='marker') {
             Global.lat = $scope.markers[0].latitude;
             Global.lon = $scope.markers[0].longitude;
-            $location.path('/addnew');
+            
+            var new_hotspot = {name: $scope.name,
+                               latitude: $scope.markers[0].latitude,
+                               longitude: $scope.markers[0].longitude};
+            HotspotDetail.create(new_hotspot, function(resp){
+                $scope.response = resp.hotspot.uri;
+            });
+            alert("Hotspot telah ditambahkan, terima kasih!");
+            $location.path('/home');
         }
     };
 
@@ -185,46 +196,19 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
 };
 
 
-function AddNewCtrl($scope, $location, HotspotDetail, Global) {
+function DetailsCtrl($scope, $routeParams, $location, $window, HotspotDetail, Global) {
     
-    $scope.name = "";
-    $scope.lat = Global.lat;
-    $scope.lon = Global.lon;
-    
-    $scope.addNew =  function(name) {
-        var new_hotspot = {name: $scope.name,
-                         latitude: $scope.lat,
-                         longitude: $scope.lon};
-        HotspotDetail.create(new_hotspot, function(resp){
-            $scope.response = resp.hotspot.uri;
-        });
-        $location.path('/thanks');
-    } 
-    
-    //console.log($scope.name);
-
-};
-
-
-function ThanksCtrl($scope) {
-  $scope.test = "thanks";
-    
-};
-
-
-function DetailsCtrl($scope, $routeParams, $window, HotspotDetail, Global) {
-    
-    $scope.id = $routeParams.id;
-    $window.disqus_shortname = "wifinder";
+    // don't simply use $routeParams.id; 
+    // something's not right with angular-disqus' setting of window.disqus_identifier
+    $scope.id = $location.absUrl();  
     // center and zoom just need to be initialized
     // the actual value will be updated after the query
     $scope.center = { latitude: 0, 
                       longitude: 0 };
     $scope.zoom = 16;
     
-    $scope.hotspot = HotspotDetail.query({id: $scope.id}, 
+    $scope.hotspot = HotspotDetail.query({id: $routeParams.id}, 
                                          function(hotspot){
-                                             $scope.test = hotspot;
                                              $scope.name = hotspot.hotspot.name;
                                              $scope.lat = hotspot.hotspot.latitude;
                                              $scope.lon = hotspot.hotspot.longitude;
@@ -235,6 +219,10 @@ function DetailsCtrl($scope, $routeParams, $window, HotspotDetail, Global) {
                                              Global.lon = $scope.lon;
                                              Global.zoom = $scope.zoom;
                                          });
+    
+    //console.log(window.disqus_identifier);
+    //console.log($window.navigator.userAgent);
+    
 };
 
 
@@ -243,6 +231,4 @@ function DetailsCtrl($scope, $routeParams, $window, HotspotDetail, Global) {
 
 myApp.controller('HomeCtrl', ['$scope', 'FreeWiFi', 'Global', HomeCtrl]);
 myApp.controller('SelectCtrl', ['$scope', '$http', '$location', 'HotspotDetail', 'Global', SelectCtrl]);
-myApp.controller('AddNewCtrl', ['$scope', '$location', 'HotspotDetail', 'Global', AddNewCtrl]);
-myApp.controller('ThanksCtrl', ['$scope', ThanksCtrl]);
-myApp.controller('DetailsCtrl', ['$scope', '$routeParams', '$window', 'HotspotDetail', 'Global', DetailsCtrl]);
+myApp.controller('DetailsCtrl', ['$scope', '$routeParams', '$location', '$window', 'HotspotDetail', 'Global', DetailsCtrl]);

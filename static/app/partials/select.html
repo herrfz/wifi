@@ -29,9 +29,8 @@
     <button 
         class="btn btn-primary"
         ng-disabled="selected.place.name=='None'"
-        ng-click="submit('radio')">Tambah hotspot</button>
-<!--    <a href="#/thanks" class="btn btn-primary" ng-click="submit('radio')">Tambah hotspot</a>-->
-    <a href="#/home" class="btn">Cancel</a>
+        ng-click="submit('radio')">Tambahkan hotspot baru</button>
+    <a href="#!/home" class="btn">Cancel</a>
 </div>
 
     
@@ -58,14 +57,22 @@ OR
 
 </div>
 
-<p class="small-note">*Cari lokasi di form di bagian kiri. Geser dan zoom pada peta, klik untuk menambahkan marker pada posisi yang diinginkan.</p>
+<p class="small-note">*Cari lokasi di form di bagian kiri. Geser dan zoom pada peta, klik untuk menambahkan marker pada posisi yang diinginkan, dan isi nama lokasi hotspot di kotak berikut.</p>
 <!--<p>{{markers[0].latitude}}, {{markers[0].longitude}}</p>-->
 
-<button 
-   class="btn btn-primary"
-   ng-disabled="markers.length==0"
-   ng-click="submit('marker')">Tambah hotspot</button>
-<a href="#/home" class="btn">Cancel</a>
+    
+<div class="form-actions">
+    <label class="control-label">Anda berada di </label>
+    <form class="form-search">
+        <input type="text" class="input-medium" ng-model="name"/> 
+        <button type="submit" 
+                class="btn btn-primary"
+                ng-disabled="markers.length==0 || name==''"
+                ng-click="submit('marker')">Tambahkan hotspot baru
+        </button>	
+        <a href="#!/home" class="btn">Cancel</a>
+    </form>
+</div>
 	   
 
 </div>
