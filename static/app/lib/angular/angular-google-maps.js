@@ -193,7 +193,7 @@
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(lat, lng),
           map: _instance,
-          icon: icon
+          icon:"static/app/img/wireless.png"
         });
         
         if (label) {
