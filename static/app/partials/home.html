@@ -15,9 +15,8 @@
 <table class="table table-striped table-condensed table-hover">
     <tbody>
         <tr ng-repeat="hotspot in hotspots.nearby_hotspots">
-            <td>{{hotspot.name}}</td>
-            <td><rating value="rate" max="max"></td>
-            <td><a href="#!/{{hotspot.id}}/details">Detail</a></td>
+            <td><a href="#!/{{hotspot.id}}/details">{{hotspot.name}}</a></td>
+            <td width="80"><rating value="rate" max="max"></td>
         </tr>
     </tbody>
 </table>

@@ -30,8 +30,13 @@ angular.module('freeWiFiServices', ['ngResource']).
 
 myApp.factory('Global', function() {
     return {
-        lat: -6.908361,
-        lon: 107.610698,
-        zoom: 12
+        // init to non-zero small value to avoid 4sq API bad request response error
+        // which occurs if (lat, lon) = (0, 0)
+        lat: 0.01, 
+        lon: 0.01,
+        // full world view
+        zoom: 1,
+        // flag marking first application load
+        init: 1
     };
 });

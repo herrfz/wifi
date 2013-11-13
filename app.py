@@ -5,7 +5,7 @@ import psycopg2
 app = Flask(__name__)
 
 try:
-    conn = psycopg2.connect(database='HotspotDB', host='localhost' , user='postgres')
+    conn = psycopg2.connect(database='HotspotDB', host='localhost')#, user='postgres')
     # conn.set_isolation_level(0) # for older version of psycopg2
     conn.autocommit = True
     cursor = conn.cursor()
@@ -147,6 +147,32 @@ def delete_hotspot(hotspot_id):
         abort(404)
     hotspots.remove(hotspot[0])
     return jsonify( { 'result': True } )
+
+
+
+######################
+#
+# Rating APIs
+#
+######################
+@app.route('/freewifi/api/v1.0/rating', methods = ['GET']) 
+def get_rating():
+    if not request.json or not 'ip' in request.json:
+        abort(400)
+    
+    ip = request.json['ip']
+    
+    return 0
+
+
+@app.route('/freewifi/api/v1.0/rating', methods = ['POST']) 
+def add_rating():
+    return 0
+
+
+@app.route('/freewifi/api/v1.0/rating', methods = ['PUT']) 
+def update_rating():
+    return 0
 
 
 

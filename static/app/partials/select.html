@@ -27,7 +27,7 @@
 <div class="form-actions">
     <button 
         class="btn btn-primary"
-        ng-disabled="selected.place.name=='None'"
+        ng-disabled="places==[] || selected.place.name=='None'"
         ng-click="submit('radio')">Tambahkan hotspot baru</button>
     <a href="#!/home" class="btn">Cancel</a>
 </div>    

@@ -3,16 +3,28 @@
 /* Controllers */
 function HomeCtrl($scope, FreeWiFi, Global) {
     
-    $scope.zoom = Global.zoom;
-    var radius = 5000; // metres
+    // map parameters
+    if (Global.init==1) { // if application is first loaded
+        Global.init = 0;
+
+        $scope.zoom = Global.zoom;
+        $scope.center = {latitude: Global.lat, 
+                         longitude: Global.lon};
+        var radius = 5000; //TBD
+        
+    } else {
+        $scope.zoom = Global.zoom;
+        $scope.center = {latitude: Global.lat, 
+                         longitude: Global.lon};
+        var radius = 5000; // metres
+    }
     
+    
+    // parameters for the rating widget
     $scope.rate = 0;
-    $scope.max = 4;
+    $scope.max = 5;
+
     
-    
-    // hard-coded default map centre coordinate and initial hotspots in the surrounding
-    $scope.center = { latitude: Global.lat, 
-                      longitude: Global.lon };
     $scope.hotspots = FreeWiFi.query({lat: $scope.center.latitude,
                                       lon: $scope.center.longitude,
                                       radius: radius},
@@ -28,6 +40,7 @@ function HomeCtrl($scope, FreeWiFi, Global) {
                              longitude: lon };
             Global.lat = lat;
             Global.lon = lon;
+            Global.zoom = $scope.zoom;
             
             if (!$scope.$$phase) $scope.$apply("center");
             $scope.hotspots = FreeWiFi.query({lat: $scope.center.latitude, 
@@ -76,8 +89,8 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
 	
 	
     // map centre coordinates from home page
-    $scope.center = { latitude: Global.lat, 
-                      longitude: Global.lon };
+    $scope.center = {latitude: Global.lat, 
+                    longitude: Global.lon};
     
     // this is a hack
     if ($scope.markers.length==0) {
@@ -97,6 +110,7 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
                                   longitude: lon };
                 Global.lat = lat;
                 Global.lon = lon;
+                Global.zoom = $scope.zoom;
 								  
                 $scope.cur_lat = lat;  //change parameter lat lon after search
                 $scope.cur_lon = lon;
@@ -166,6 +180,7 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
             var name = $scope.selected.place.name;
             Global.lat = $scope.selected.place.lat;
             Global.lon = $scope.selected.place.lon;
+            Global.zoom = $scope.zoom;
             
             // add hotspot using HotspotDetail service query
             var new_hotspot = {name: name,
@@ -180,6 +195,7 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
         } else if (venue_source=='marker') {
             Global.lat = $scope.markers[0].latitude;
             Global.lon = $scope.markers[0].longitude;
+            Global.zoom = $scope.zoom;
             
             var new_hotspot = {name: $scope.name,
                                latitude: $scope.markers[0].latitude,
@@ -203,8 +219,8 @@ function DetailsCtrl($scope, $routeParams, $location, $window, HotspotDetail, Gl
     $scope.id = $location.absUrl();  
     // center and zoom just need to be initialized
     // the actual value will be updated after the query
-    $scope.center = { latitude: 0, 
-                      longitude: 0 };
+    $scope.center = {latitude: 0, 
+                    longitude: 0};
     $scope.zoom = 16;
     
     $scope.hotspot = HotspotDetail.query({id: $routeParams.id}, 
