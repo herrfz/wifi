@@ -28,6 +28,9 @@ function HomeCtrl($scope, $http, $window, FreeWiFi, Global) {
     
     // parameters for the rating widget
     $scope.max = 5;
+    
+    // alert
+    $scope.shown = true;
 
     
     $scope.hotspots = FreeWiFi.query({lat: $scope.center.latitude,
