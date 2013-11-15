@@ -16,7 +16,7 @@
     <tbody>
         <tr ng-repeat="hotspot in hotspots.nearby_hotspots">
             <td><a href="#!/{{hotspot.id}}/details">{{hotspot.name}}</a></td>
-            <td width="80"><rating value="rate" max="max"></td>
+            <td width="80"><rating value="hotspot.rating" max="max" readonly="true"></td>
         </tr>
     </tbody>
 </table>

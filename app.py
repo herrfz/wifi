@@ -56,18 +56,20 @@ def index():
 ######################
 @app.route('/freewifi/api/v1.0/hotspots/<lat>/<lon>/<radius>', methods = ['GET']) 
 def get_nearby_hotspots(lat, lon, radius):
-    query = '''SELECT *
+    query = '''SELECT Hotspots.id, name, latitude, longitude, ROUND(AVG(rating)) AS rating 
                FROM Hotspots 
+               LEFT OUTER JOIN Ratings 
+               ON Hotspots.id = Ratings.id 
                WHERE earth_box(ll_to_earth(%s, %s), %s) @> ll_to_earth(Hotspots.latitude, Hotspots.longitude) 
-               LIMIT 10''' % (lat, lon, radius)
+               GROUP BY Hotspots.id, name, latitude, longitude''' % (lat, lon, radius)
     cursor.execute(query)
-    records = cursor.fetchall() # list of tuples: [(id, name, lat, lon), ...]
+    records = cursor.fetchall() # list of tuples: [(id, name, lat, lon, rating), ...]
     
     if len(records)==0:
         abort(404)
     
-    fields = ('id', 'name', 'latitude', 'longitude')
-    nearby_hotspots = map(lambda x: dict(zip(fields, x)), records)
+    fields = ('id', 'name', 'latitude', 'longitude', 'rating')
+    nearby_hotspots = map(lambda x: dict(zip(fields, map(str, x))), records)
     
     return jsonify( {'nearby_hotspots': nearby_hotspots} )
 

@@ -38,3 +38,18 @@ LIMIT 10
 CREATE TABLE Comments(hotspotid INT, datetime TIMESTAMP WITH TIME ZONE, comment TEXT)
 
 INSERT INTO Comments VALUES(0, now(), 'test comment')
+
+
+
+CREATE TABLE Ratings(id INT, ipaddr TEXT, cookie TEXT, uagent TEXT, rating INT)
+
+INSERT INTO Ratings VALUES(1, "127.0.0.1", "testcookie", "testua", 3)
+
+
+SELECT Hotspots.id, name, latitude, longitude, ROUND(AVG(rating)) AS rating 
+FROM Hotspots 
+LEFT OUTER JOIN Ratings 
+ON Hotspots.id = Ratings.id 
+WHERE earth_box(ll_to_earth([[input lat]], [[input lon]]), [[input radius]]) @> 
+                ll_to_earth(Hotspots.latitude, Hotspots.longitude) 
+GROUP BY Hotspots.id, name, latitude, longitude

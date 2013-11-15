@@ -37,6 +37,9 @@ myApp.factory('Global', function() {
         // full world view
         zoom: 1,
         // flag marking first application load
-        init: 1
+        init: 1,
+        // user identifications
+        ipaddr: '',
+        uagent: ''
     };
 });

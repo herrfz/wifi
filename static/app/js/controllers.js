@@ -1,11 +1,17 @@
 'use strict';
 
 /* Controllers */
-function HomeCtrl($scope, FreeWiFi, Global) {
+function HomeCtrl($scope, $http, $window, FreeWiFi, Global) {
     
     // map parameters
     if (Global.init==1) { // if application is first loaded
         Global.init = 0;
+        Global.uagent = $window.navigator.userAgent;
+        
+        $http.get('http://ipinfo.io/json').success(function(response) {
+            Global.ipaddr = response.ip;
+            //console.log(Global.uagent);
+        });
 
         $scope.zoom = Global.zoom;
         $scope.center = {latitude: Global.lat, 
@@ -21,7 +27,6 @@ function HomeCtrl($scope, FreeWiFi, Global) {
     
     
     // parameters for the rating widget
-    $scope.rate = 0;
     $scope.max = 5;
 
     
@@ -223,6 +228,9 @@ function DetailsCtrl($scope, $routeParams, $location, $window, HotspotDetail, Gl
                     longitude: 0};
     $scope.zoom = 16;
     
+    // parameters for the rating widget
+    $scope.max = 5;
+    
     $scope.hotspot = HotspotDetail.query({id: $routeParams.id}, 
                                          function(hotspot){
                                              $scope.name = hotspot.hotspot.name;
@@ -245,6 +253,6 @@ function DetailsCtrl($scope, $routeParams, $location, $window, HotspotDetail, Gl
 
 
 
-myApp.controller('HomeCtrl', ['$scope', 'FreeWiFi', 'Global', HomeCtrl]);
+myApp.controller('HomeCtrl', ['$scope', '$http', '$window', 'FreeWiFi', 'Global', HomeCtrl]);
 myApp.controller('SelectCtrl', ['$scope', '$http', '$location', 'HotspotDetail', 'Global', SelectCtrl]);
 myApp.controller('DetailsCtrl', ['$scope', '$routeParams', '$location', '$window', 'HotspotDetail', 'Global', DetailsCtrl]);
