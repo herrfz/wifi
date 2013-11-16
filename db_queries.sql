@@ -41,9 +41,9 @@ INSERT INTO Comments VALUES(0, now(), 'test comment')
 
 
 
-CREATE TABLE Ratings(id INT, ipaddr TEXT, cookie TEXT, uagent TEXT, rating INT)
+CREATE TABLE Ratings(id INT, ipaddr TEXT, date DATE, rating INT)
 
-INSERT INTO Ratings VALUES(1, "127.0.0.1", "testcookie", "testua", 3)
+INSERT INTO Ratings VALUES(1, '127.0.0.1', '2013-11-15', 5)
 
 
 SELECT Hotspots.id, name, latitude, longitude, ROUND(AVG(rating)) AS rating 

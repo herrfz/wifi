@@ -233,6 +233,7 @@ function DetailsCtrl($scope, $routeParams, $location, $window, HotspotDetail, Gl
     
     // parameters for the rating widget
     $scope.max = 5;
+    $scope.rating = 0;
     
     $scope.hotspot = HotspotDetail.query({id: $routeParams.id}, 
                                          function(hotspot){
