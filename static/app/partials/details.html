@@ -5,9 +5,14 @@
 
         <p>Rate this hotspot: <rating value="rating" max="max" readonly="false"></p>
         <div class="btn-group" ng-click="$event.preventDefault()">
-            <a href="#"><i class="icon-thumbs-up"></i></a><span class="badge badge-success">1</span>
-            <a href="#"><i class="icon-thumbs-down"></i></a><span class="badge badge-important">1</span>
+            <a href="#" ng-click="updateLike()"><i class="icon-thumbs-up"></i></a><span class="badge badge-success">{{likes}}</span>
+            <a href="#" ng-click="updateUnlike()"><i class="icon-thumbs-down"></i></a><span class="badge badge-important">{{unlikes}}</span>
         </div>
+        
+        <div class="btn-group">
+            <a href="#!/home">&lt;&lt;Home</a>
+        </div>
+        
 	</div>
     
 	<div class="span6">

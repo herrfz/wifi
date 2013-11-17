@@ -16,7 +16,7 @@ function HomeCtrl($scope, $http, $window, FreeWiFi, Global) {
         $scope.zoom = Global.zoom;
         $scope.center = {latitude: Global.lat, 
                          longitude: Global.lon};
-        var radius = 5000; //TBD
+        var radius = 5000; // TODO: set a value for a better presentation on first load
         
     } else {
         $scope.zoom = Global.zoom;
@@ -98,7 +98,7 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
 	
     // map centre coordinates from home page
     $scope.center = {latitude: Global.lat, 
-                    longitude: Global.lon};
+                     longitude: Global.lon};
     
     // this is a hack
     if ($scope.markers.length==0) {
@@ -220,7 +220,7 @@ function SelectCtrl($scope, $http, $location, HotspotDetail, Global) {
 };
 
 
-function DetailsCtrl($scope, $routeParams, $location, $window, HotspotDetail, Global) {
+function DetailsCtrl($scope, $routeParams, $location, $window, HotspotDetail, Global, Cookie) {
     
     // don't simply use $routeParams.id; 
     // something's not right with angular-disqus' setting of window.disqus_identifier
@@ -228,25 +228,125 @@ function DetailsCtrl($scope, $routeParams, $location, $window, HotspotDetail, Gl
     // center and zoom just need to be initialized
     // the actual value will be updated after the query
     $scope.center = {latitude: 0, 
-                    longitude: 0};
+                     longitude: 0};
     $scope.zoom = 16;
     
     // parameters for the rating widget
     $scope.max = 5;
     $scope.rating = 0;
     
+    // flag variable to decide INSERT or UPDATE
+    var action = '';
+    
     $scope.hotspot = HotspotDetail.query({id: $routeParams.id}, 
                                          function(hotspot){
                                              $scope.name = hotspot.hotspot.name;
                                              $scope.lat = hotspot.hotspot.latitude;
                                              $scope.lon = hotspot.hotspot.longitude;
-                                             $scope.center = { latitude: $scope.lat, 
-                                                               longitude: $scope.lon };
+                                             $scope.center = {latitude: $scope.lat, 
+                                                              longitude: $scope.lon};
 											 $scope.markers = [$scope.center]
                                              Global.lat = $scope.lat;
                                              Global.lon = $scope.lon;
                                              Global.zoom = $scope.zoom;
                                          });
+    
+    // prepare date variables for cookie
+    var dateobj = new Date();
+    var date = dateobj.getUTCDate();
+    var month = dateobj.getUTCMonth() + 1;
+    var year = dateobj.getUTCFullYear();
+    
+    // do we already have a cookie?
+    if (Cookie('wifinder')==null) { // we don't have a cookie, so create one
+        Cookie('wifinder', {
+            // value is encoded as id|ipaddress|date_created
+            // id shall contain a list of already rated hotspots, comma separated
+            value : $routeParams.id + '|' + 
+                    Global.ipaddr + '|' + 
+                    year + '/' + month + '/' + date,
+            session: false,
+            secure: false,
+            // set expiration to 1 day so existence of cookie is a sufficient check.
+            // one user rating a hotspot on a different day is a different user to the system.
+            expires: 1 
+        });
+        action = 'insert';
+        
+    } else { // we already have a cookie
+        // read the value
+        var myCookie = Cookie('wifinder').split('|');
+        // is hotspot already rated?
+        var ids = myCookie[0].split(',');
+        if (ids.indexOf($routeParams.id) >= 0) { // hotspot already rated, id is on the list
+            action = 'update';
+        } else { // hotspot not yet rated
+            myCookie[0] += ',' + $routeParams.id; // add the hotspot to the list, comma separated
+            Cookie('wifinder', {
+                value: myCookie[0] + '|' + 
+                       myCookie[1] + '|' + 
+                       myCookie[2],
+                session: false,
+                secure: false,
+                expires: 1  // again set to expire in one day
+            });
+            action = 'insert';
+        }
+        
+    }
+    
+    
+    var pressed = '';
+    var enabled = true;
+    $scope.likes = 0; // TODO: get these values from database
+    $scope.unlikes = 0;
+    
+    $scope.updateLike = function () {
+        if (pressed=='' && enabled) {
+            pressed = 'like';
+            enabled = false;
+            $scope.likes += 1;
+        } else if (pressed=='like' && !enabled) {
+            
+        } else if (pressed=='unlike' && enabled) {
+            pressed = 'like';
+            enabled = false;
+            $scope.likes += 1;
+        } else if (pressed=='unlike' && !enabled) {
+            pressed = 'like';
+            enabled = true;
+            $scope.unlikes -= 1;
+        } else if (pressed=='like' && enabled) {
+            enabled = false;
+            $scope.likes += 1;
+        }
+    };
+    
+    $scope.updateUnlike = function() {
+        if (pressed=='' && enabled) {
+            pressed = 'unlike';
+            enabled = false;
+            $scope.unlikes += 1;
+        } else if (pressed=='unlike' && !enabled) {
+            
+        } else if (pressed=='like' && enabled) {
+            pressed = 'unlike';
+            enabled = false;
+            $scope.unlikes += 1;
+        } else if (pressed=='like' && !enabled) {
+            pressed = 'unlike';
+            enabled = true;
+            $scope.likes -= 1;
+        } else if (pressed=='unlike' && enabled) {
+            enabled = false;
+            $scope.unlikes += 1;
+        }
+    };
+    
+    
+    $scope.$on('$locationChangeStart', function(){
+        //alert('you\'re leaving the page');
+    });
     
     //console.log(window.disqus_identifier);
     //console.log($window.navigator.userAgent);
@@ -259,4 +359,4 @@ function DetailsCtrl($scope, $routeParams, $location, $window, HotspotDetail, Gl
 
 myApp.controller('HomeCtrl', ['$scope', '$http', '$window', 'FreeWiFi', 'Global', HomeCtrl]);
 myApp.controller('SelectCtrl', ['$scope', '$http', '$location', 'HotspotDetail', 'Global', SelectCtrl]);
-myApp.controller('DetailsCtrl', ['$scope', '$routeParams', '$location', '$window', 'HotspotDetail', 'Global', DetailsCtrl]);
+myApp.controller('DetailsCtrl', ['$scope', '$routeParams', '$location', '$window', 'HotspotDetail', 'Global', 'Cookie', DetailsCtrl]);

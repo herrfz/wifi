@@ -50,6 +50,6 @@ SELECT Hotspots.id, name, latitude, longitude, ROUND(AVG(rating)) AS rating
 FROM Hotspots 
 LEFT OUTER JOIN Ratings 
 ON Hotspots.id = Ratings.id 
-WHERE earth_box(ll_to_earth([[input lat]], [[input lon]]), [[input radius]]) @> 
+WHERE earth_box(ll_to_earth(:input_lat, :input_lon), :input_radius) @> 
                 ll_to_earth(Hotspots.latitude, Hotspots.longitude) 
 GROUP BY Hotspots.id, name, latitude, longitude

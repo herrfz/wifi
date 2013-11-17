@@ -61,7 +61,8 @@ def get_nearby_hotspots(lat, lon, radius):
                LEFT OUTER JOIN Ratings 
                ON Hotspots.id = Ratings.id 
                WHERE earth_box(ll_to_earth(%s, %s), %s) @> ll_to_earth(Hotspots.latitude, Hotspots.longitude) 
-               GROUP BY Hotspots.id, name, latitude, longitude''' % (lat, lon, radius)
+               GROUP BY Hotspots.id, name, latitude, longitude
+               LIMIT 15''' % (lat, lon, radius)
     cursor.execute(query)
     records = cursor.fetchall() # list of tuples: [(id, name, lat, lon, rating), ...]
     
