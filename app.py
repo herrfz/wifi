@@ -69,7 +69,8 @@ def get_nearby_hotspots(lat, lon, radius):
     if len(records)==0:
         abort(404)
     
-    fields = ('id', 'name', 'latitude', 'longitude', 'rating')
+    # 'name' is renamed to 'infoWindow' to match angular-google-maps
+    fields = ('id', 'infoWindow', 'latitude', 'longitude', 'rating') 
     nearby_hotspots = map(lambda x: dict(zip(fields, map(str, x))), records)
     
     return jsonify( {'nearby_hotspots': nearby_hotspots} )
@@ -105,7 +106,7 @@ def create_hotspot():
     # escape single quote for postgres
     name = name.replace("'", "''")
     
-    # SQL input sanitization TBD
+    # TODO: input type integrity checks
     
     query = '''INSERT INTO Hotspots(name, latitude, longitude)
                VALUES('%s', %s, %s)
@@ -122,60 +123,89 @@ def create_hotspot():
     return jsonify( { 'hotspot': make_public(hotspot) } ), 201
 
 
-# Not finished
-@app.route('/freewifi/api/v1.0/hotspots/<int:hotspot_id>', methods = ['PUT'])
-def update_hotspot(hotspot_id):
-    hotspot = filter(lambda x: x['id'] == hotspot_id, hotspots)
-    if len(hotspot) == 0:
-        abort(404)
-    if not request.json:
-        abort(400)
-    if 'name' in request.json and type(request.json['name']) != unicode:
-        abort(400)
-    if 'latitude' in request.json and type(request.json['latitude']) is not float:
-        abort(400)
-    if 'longitude' in request.json and type(request.json['longitude']) is not float:
-        abort(400)
-    hotspot[0]['name'] = request.json.get('name', hotspot[0]['name'])
-    hotspot[0]['latitude'] = request.json.get('latitude', hotspot[0]['latitude'])
-    hotspot[0]['longitude'] = request.json.get('longitude', hotspot[0]['longitude'])
-    return jsonify( { 'hotspot': make_public(hotspot[0]) } )
-
-
-# Not finished
-@app.route('/freewifi/api/v1.0/hotspots/<int:hotspot_id>', methods = ['DELETE'])
-def delete_hotspot(hotspot_id):
-    hotspot = filter(lambda x: x['id'] == hotspot_id, hotspots)
-    if len(hotspot) == 0:
-        abort(404)
-    hotspots.remove(hotspot[0])
-    return jsonify( { 'result': True } )
-
-
 
 ######################
 #
 # Rating APIs
 #
 ######################
-@app.route('/freewifi/api/v1.0/rating', methods = ['GET']) 
-def get_rating():
-    if not request.json or not 'ip' in request.json:
-        abort(400)
+@app.route('/freewifi/api/v1.0/rating/<id>/<ip>/<date>', methods = ['GET']) 
+def get_rating(id, ip, date):
+    ## get star rating for the corresponding date
+    query = '''SELECT rating, likes, unlikes 
+               FROM Ratings
+               WHERE id=%s AND ipaddr='%s' AND date='%s'
+            ''' % (id, ip, date)
+    cursor.execute(query)
+    rating_records = cursor.fetchall() # list of tuples: [ ... ] or null
     
-    ip = request.json['ip']
+    if len(rating_records)==0:
+        rating = ('-1', '0', '0')
+    else:
+        rating = tuple(map(str, rating_records[0]))
+        
+    ## get aggregated likes, unlikes for the hotspot
+    query = '''SELECT SUM(likes) as likes, SUM(unlikes) as unlikes
+               FROM Ratings
+               WHERE id=%s
+            ''' % id
+    cursor.execute(query)
+    likes_records = cursor.fetchall() # list of tuples: [ ... ] or null
     
-    return 0
+    if likes_records[0]==(None, None):
+        likes = ('0', '0')
+    else:
+        likes = tuple(map(str, likes_records[0]))
+    
+    fields = ('rating', 'likes', 'unlikes', 'hotspot_likes', 'hotspot_unlikes')
+    result = dict(zip(fields, rating + likes))
+        
+    return jsonify( { 'result': result } )
 
 
 @app.route('/freewifi/api/v1.0/rating', methods = ['POST']) 
 def add_rating():
-    return 0
+    if not request.json:
+        abort(400)
+        
+    # TODO: input type integrity checks 
+    
+    id = request.json['id']
+    ip = request.json['ip']
+    date = request.json['date']
+    rating = request.json['rating']
+    likes = request.json['likes']
+    unlikes = request.json['unlikes']
+    
+    query = '''INSERT INTO Ratings(id, ipaddr, date, rating, likes, unlikes)
+               VALUES (%s, '%s', '%s', %s, %s, %s)
+            ''' % (id, ip, date, rating, likes, unlikes)
+    cursor.execute(query)
+    
+    return jsonify( { 'result': True } )
 
 
 @app.route('/freewifi/api/v1.0/rating', methods = ['PUT']) 
 def update_rating():
-    return 0
+    if not request.json:
+        abort(400)
+        
+    # TODO: input type integrity checks 
+    
+    id = request.json['id']
+    ip = request.json['ip']
+    date = request.json['date']
+    rating = request.json['rating']
+    likes = request.json['likes']
+    unlikes = request.json['unlikes']
+    
+    query = '''UPDATE Ratings
+               SET rating=%s, likes=%s, unlikes=%s
+               WHERE id=%s AND ipaddr='%s' AND date='%s'
+            ''' % (rating, likes, unlikes, id, ip, date)
+    cursor.execute(query)
+    
+    return jsonify( { 'result': True } )
 
 
 

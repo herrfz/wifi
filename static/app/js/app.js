@@ -2,7 +2,9 @@
 
 /* App Module */
 var myApp = angular.module('freeWifiFinderApp', ['google-maps', 
-                                                 'freeWiFiServices', 
+                                                 'GeoService',
+                                                 'HotspotService',
+                                                 'RatingService',
                                                  'ui.bootstrap', 
                                                  'ngDisqus']);
 

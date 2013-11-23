@@ -3,15 +3,26 @@
         <h3>{{name}}</h3>
         <p style="color:blue;font-style:italic;"> ({{lat}} , {{lon}})</p>
 
-        <p>Rate this hotspot: <rating value="rating" max="max" readonly="false"></p>
+        <p>Rate this hotspot: <rating value="rating" 
+                                      max="max" 
+                                      readonly="false" 
+                                      on-hover="hoveringOver(value)"
+                                      on-leave="hoveringLeave(rating)"></p>
         <div class="btn-group" ng-click="$event.preventDefault()">
-            <a href="#" ng-click="updateLike()"><i class="icon-thumbs-up"></i></a><span class="badge badge-success">{{likes}}</span>
-            <a href="#" ng-click="updateUnlike()"><i class="icon-thumbs-down"></i></a><span class="badge badge-important">{{unlikes}}</span>
+            <a href="#" ng-click="updateLike()"><i class="icon-thumbs-up"></i></a><span class="badge badge-success">{{hotspot_likes + likes}}</span>
+            <a href="#" ng-click="updateUnlike()"><i class="icon-thumbs-down"></i></a><span class="badge badge-important">{{hotspot_unlikes + unlikes}}</span>
         </div>
         
-        <div class="btn-group">
-            <a href="#!/home">&lt;&lt;Home</a>
+        
+        <div class="row-fluid">
+            <p> </p>
+            <ul class="nav nav-pills">
+                <li class="active">
+                    <a href="#!/home">Home</a>
+                </li>
+            </ul>
         </div>
+        
         
 	</div>
     
@@ -23,7 +34,8 @@
              mark-click="false"
              draggable="false"
              fit="false"
-             style="height:300px;width:400px;margin:5px;box-shadow:0 3px 25px black"></div>
+             style="height:300px;width:400px;margin:5px;box-shadow:0 3px 25px black">
+        </div>
 	</div>
 </div>
 
