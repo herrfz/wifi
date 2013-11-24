@@ -137,28 +137,29 @@ def get_rating(id, ip, date):
                WHERE id=%s AND ipaddr='%s' AND date='%s'
             ''' % (id, ip, date)
     cursor.execute(query)
-    rating_records = cursor.fetchall() # list of tuples: [ ... ] or null
+    user_record = cursor.fetchall() # list of tuples: [ ... ] or null
     
-    if len(rating_records)==0:
-        rating = ('-1', '0', '0')
+    if len(user_record)==0:
+        user = ('-1', '0', '0')
     else:
-        rating = tuple(map(str, rating_records[0]))
+        user = tuple(map(str, user_record[0]))
         
-    ## get aggregated likes, unlikes for the hotspot
-    query = '''SELECT SUM(likes) as likes, SUM(unlikes) as unlikes
+    ## get aggregated rating, likes, unlikes for the hotspot
+    query = '''SELECT SUM(likes) AS hotspot_likes, 
+                      SUM(unlikes) AS hotspot_unlikes
                FROM Ratings
                WHERE id=%s
             ''' % id
     cursor.execute(query)
-    likes_records = cursor.fetchall() # list of tuples: [ ... ] or null
+    hotspot_record = cursor.fetchall() # list of tuples: [ ... ] or null
     
-    if likes_records[0]==(None, None):
-        likes = ('0', '0')
+    if hotspot_record[0]==(None, None):
+        hotspot = ('0', '0')
     else:
-        likes = tuple(map(str, likes_records[0]))
+        hotspot = tuple(map(str, hotspot_record[0]))
     
     fields = ('rating', 'likes', 'unlikes', 'hotspot_likes', 'hotspot_unlikes')
-    result = dict(zip(fields, rating + likes))
+    result = dict(zip(fields, user + hotspot))
         
     return jsonify( { 'result': result } )
 

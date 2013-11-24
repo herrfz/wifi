@@ -277,9 +277,14 @@ function DetailsCtrl($scope, $routeParams, $location, $http, HotspotDetail, Hots
         // get rating, likes, unlikes for current hotspot; ip address and date identify unique user
         var dbrating = HotspotRating.query(rating_record, function (resp) {
             if (resp.result.rating==-1) {
+                // $scope.rating is not set here, 
+                // the number of stars signifies the rating __provided__ by the user
+                // not the average rating of the hotspot
                 action = 'insert';
-                $scope.hotspot_likes = 0;
-                $scope.hotspot_unlikes = 0;
+                // likes/unlikes have a different semantic; 
+                // the number shows the total likes/unlikes of the hotspot
+                $scope.hotspot_likes = parseInt(resp.result.hotspot_likes);
+                $scope.hotspot_unlikes = parseInt(resp.result.hotspot_unlikes);
                 $scope.likes = 0;
                 $scope.unlikes = 0;
             } else {
