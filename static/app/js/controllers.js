@@ -7,8 +7,8 @@ function HomeCtrl($scope, $http, FreeWiFi, Global) {
     if (Global.init==1) { // if application is first loaded
         Global.init = 0;
         
-        $http.jsonp('http://jsonip.appspot.com/?callback=JSON_CALLBACK').success(function(response) {
-            Global.ipaddr = response.ip;
+        $http.jsonp('http://www.codehelper.io/api/ips/?callback=JSON_CALLBACK').success(function(response) {
+            Global.ipaddr = response.IP;
         });
 
         $scope.zoom = Global.zoom;
@@ -268,9 +268,9 @@ function DetailsCtrl($scope, $routeParams, $location, $http, HotspotDetail, Hots
     var year = dateobj.getUTCFullYear();
     var yymmdd = year + '-' + month + '-' + date;
     
-    // get ip address, don't assume that it's already set through home page
-    $http.jsonp('http://jsonip.appspot.com/?callback=JSON_CALLBACK').success(function(response) {
-        Global.ipaddr = response.ip;
+    // get ip address, don't assume that it's already set through home page 
+    $http.jsonp('http://www.codehelper.io/api/ips/?callback=JSON_CALLBACK').success(function(response) {
+        Global.ipaddr = response.IP;
         var rating_record = {id: $routeParams.id, 
                              ip: Global.ipaddr,
                              date: yymmdd};
