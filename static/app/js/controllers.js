@@ -7,7 +7,7 @@ function HomeCtrl($scope, $http, FreeWiFi, Global) {
     if (Global.init==1) { // if application is first loaded
         Global.init = 0;
         
-        $http.get('http://ipinfo.io/json').success(function(response) {
+        $http.jsonp('http://jsonip.appspot.com/?callback=JSON_CALLBACK').success(function(response) {
             Global.ipaddr = response.ip;
         });
 
