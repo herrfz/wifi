@@ -269,7 +269,7 @@ function DetailsCtrl($scope, $routeParams, $location, $http, HotspotDetail, Hots
     var yymmdd = year + '-' + month + '-' + date;
     
     // get ip address, don't assume that it's already set through home page
-    $http.get('http://ipinfo.io/json').success(function(response) {
+    $http.jsonp('http://jsonip.appspot.com/?callback=JSON_CALLBACK').success(function(response) {
         Global.ipaddr = response.ip;
         var rating_record = {id: $routeParams.id, 
                              ip: Global.ipaddr,
