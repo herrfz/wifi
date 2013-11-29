@@ -2,6 +2,8 @@
 from flask import Flask, jsonify, abort, make_response, request, url_for
 import psycopg2
 
+from inttools import *
+
 app = Flask(__name__)
 
 try:
@@ -39,13 +41,24 @@ def make_public(hotspot):
 
 ######################
 #
-# Landing pages
+# Landing page
 #
 ######################
 @app.route("/")
 def index():
     # return send_file('static/app/index.html') # cached
     return make_response(open('static/app/index.html').read())
+
+
+######################
+#
+# Prime day gimmick
+#
+######################
+@app.route('/isprime/<n>', methods=['GET'])
+def prime(n):
+    p = 'prime' if isprime(int(n)) else 'not prime'
+    return jsonify({n : p})
 
 
 

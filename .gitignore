@@ -3,3 +3,8 @@
 output
 _build
 .DS_Store
+build
+*.so
+*.o
+*.xcodeproj
+*.c
