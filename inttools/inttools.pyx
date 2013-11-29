@@ -29,7 +29,7 @@ def lcmm(*args):
     return reduce(lcm, args)
 
 
-def isprime(int n):
+def isprime(long n):
     '''isprime(n): test if an integer is a prime
         
         n: integer

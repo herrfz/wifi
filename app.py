@@ -55,10 +55,15 @@ def index():
 # Prime day gimmick
 #
 ######################
-@app.route('/isprime/<n>', methods=['GET'])
+@app.route("/prime")
+def landing_prime():
+    return make_response(open('static/app/prime.html').read()) 
+
+
+@app.route('/isprime/<int:n>', methods=['GET'])
 def prime(n):
-    p = 'prime' if isprime(int(n)) else 'not prime'
-    return jsonify({n : p})
+    p = 'iz prime' if isprime(n) else 'iz not prime'
+    return jsonify({'return' : p})
 
 
 
