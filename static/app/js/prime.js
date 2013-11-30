@@ -14,7 +14,7 @@ function Ctrl($scope, Prime) {
                         $scope.value = response.return;
                     },
                     function () {
-                        $scope.value = 'thou shalt enter an integer';
+                        $scope.value = 'thou shalt enter a positive integer';
                     });
     };
 
