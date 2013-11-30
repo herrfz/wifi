@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, abort, make_response, request, url_for
 import psycopg2
 
-from inttools import *
+import gmpy
 
 app = Flask(__name__)
 
@@ -62,7 +62,7 @@ def landing_prime():
 
 @app.route('/isprime/<int:n>', methods=['GET'])
 def prime(n):
-    p = 'iz prime' if isprime(n) else 'iz not prime'
+    p = 'iz prime' if gmpy.is_prime(n)>0 else 'iz not prime'
     return jsonify({'return' : p})
 
 
