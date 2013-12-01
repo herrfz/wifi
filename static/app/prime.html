@@ -29,12 +29,16 @@
       <div class="jumbotron">
         <h1>{{value}}!</h1>
         <p class="lead"></p>
-        <p>
-            <input type="text" placeholder="enter a positive integer" ng-model="num"/>
-            <button class="btn btn-lg btn-success" 
+          <form class="form-inline" role="form">
+              <div class="form-group">
+                  <input type="text" class="form-control" placeholder="enter a positive integer" ng-model="num"/>
+              </div>
+              &nbsp;
+              <button class="btn btn-lg btn-success" 
                     ng-disabled="num.length==0" 
-                    ng-click="checkPrime()">Check!</button>
-        </p>
+                    ng-click="checkPrime()">Check!
+              </button>
+          </form>
       </div>
 
 
