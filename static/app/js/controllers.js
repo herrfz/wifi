@@ -255,7 +255,7 @@ function DetailsCtrl($scope, $routeParams, $location, $http, HotspotDetail, Hots
                                              $scope.lon = hotspot.hotspot.longitude;
                                              $scope.center = {latitude: $scope.lat, 
                                                               longitude: $scope.lon};
-											 $scope.markers = [$scope.center]
+											 $scope.markers = [$scope.center];
                                              Global.lat = $scope.lat;
                                              Global.lon = $scope.lon;
                                              Global.zoom = $scope.zoom;
