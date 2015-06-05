@@ -5,43 +5,42 @@
  * https://github.com/herrfz/wifi/LICENSE
  *
  */
+/*global angular */
+/*global myApp */
 'use strict';
 
 /* Services */
 
 angular.module('GeoService', ['ngResource']).factory('FreeWiFi', function ($resource) {
-    var url = '/freewifi/api/v1.0/hotspots/:lat/:lon/:radius';
-    var actions = {
+    var url = '/freewifi/api/v1.0/hotspots/:lat/:lon/:radius', actions = {
         query: {method: 'GET'}
     };
-        
+
     return $resource(url, {}, actions);
-    
+
 });
 
 
 angular.module('HotspotService', ['ngResource']).factory('HotspotDetail', function ($resource) {
-    var url = '/freewifi/api/v1.0/hotspots/:id';
-    var actions = {
+    var url = '/freewifi/api/v1.0/hotspots/:id', actions = {
         query: {method: 'GET'},
         create: {method: 'POST'},
         update: {method: 'PUT'},
         del: {method: 'DELETE'}
     };
-        
+
     return $resource(url, {}, actions);
-    
+
 });
 
 
 angular.module('RatingService', ['ngResource']).factory('HotspotRating', function ($resource) {
-    var url = '/freewifi/api/v1.0/rating/:id/:ip/:date';
-    var actions = {
+    var url = '/freewifi/api/v1.0/rating/:id/:ip/:date', actions = {
         query: {method: 'GET'},
         create: {method: 'POST'},
         update: {method: 'PUT'}
     };
-    
+
     return $resource(url, {}, actions);
 });
 
