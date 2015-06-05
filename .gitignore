@@ -8,3 +8,8 @@ build
 *.o
 *.xcodeproj
 *.c
+*.py
+*.ipynb
+*.sql
+*.txt
+backend
