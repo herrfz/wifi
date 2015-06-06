@@ -1,17 +1,6 @@
 WiFinder webapp
 ===============
 
-
-#### Web service (JSON + REST):
-
-- [Flask 0.10.1](http://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask) (Python)
-
-#### Database:
-
-- PostgreSQL 9.3
-- [Geo functions in PostgreSQL](http://johanndutoit.net/2013/01/07/searching-in-a-radius-using-postgres.html)
-- [psycopg2 2.5.1](http://wiki.postgresql.org/wiki/Using_psycopg2_with_PostgreSQL) (Python binding)
-
 #### Web application:
 
 * [AngularJS 1.0.6](http://code.angularjs.org/1.0.6/)
