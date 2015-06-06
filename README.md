@@ -12,14 +12,3 @@ WiFinder webapp
 * [Foursquare API](https://developer.foursquare.com/start)
 	* [Python API](https://github.com/mLewisLogic/foursquare) for trying out in IPython notebook 
 
-
-#### TODO:
-
-- Decide to include detailed info or not (need additional form)
-- Features:
-	- ~~Checkin, Upvote, Downvote, Scoring logic~~
-	  - how to manage the session? e.g. a user is allowed to vote only once <-- current implementation: one rate/like/unlike is allowed per hotspot by one IP address on a particular date.
-	- ~~Comment via Disqus~~
-	- Dynamic venue recommendations based on map centre
-- ~~Sanitize input form (character "'" is currently not accepted)~~
-
