@@ -1,9 +1,10 @@
-*~
-*.pyc
+backend
 output
+build
 _build
 .DS_Store
-build
+*~
+*.pyc
 *.so
 *.o
 *.xcodeproj
@@ -12,4 +13,3 @@ build
 *.ipynb
 *.sql
 *.txt
-backend
